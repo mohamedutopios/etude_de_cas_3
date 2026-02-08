@@ -1,0 +1,16 @@
+{
+  "name": "etude_de_cas-_3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cypress.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^15.10.0",
+    "cypress-axe": "^1.7.0"
+  }
+}
