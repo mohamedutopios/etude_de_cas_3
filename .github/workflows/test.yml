@@ -1,30 +1,48 @@
+name: CI/CD Cypress Tests
+
+on:
+  push:
+    branches:
+      - master   
+  pull_request:
+    branches:
+      - master   
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Cloner le dépôt
       - uses: actions/checkout@v3
 
+      # 2️⃣ Installer Node.js version 18
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # 3️⃣ Installer les dépendances locales
       - name: Install dependencies
         run: npm install
 
+      # 4️⃣ Ajouter node_modules/.bin au PATH pour que wait-on fonctionne
       - name: Ajouter node_modules/.bin au PATH
         run: echo "$PWD/node_modules/.bin" >> $GITHUB_PATH
 
+      # 5️⃣ Installer wait-on globalement pour éviter Permission denied
       - name: Installer wait-on globalement
         run: npm install -g wait-on
 
+      # 6️⃣ Lancer le serveur en arrière-plan
       - name: Start local server
         run: npm run start &
 
+      # 7️⃣ Attendre que le serveur soit prêt
       - name: Wait for server
         run: wait-on http://localhost:8080
 
+      # 8️⃣ Lancer les tests Cypress
       - name: Run Cypress Tests
         run: npm run test
         env:
