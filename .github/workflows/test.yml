@@ -3,10 +3,10 @@ name: CI/CD Cypress Tests
 on:
   push:
     branches:
-      - master  # Utiliser 'master' si c'est le nom de ta branche
+      - master  # ou main, selon ta branche
   pull_request:
     branches:
-      - master  # Même chose ici, 'master' comme branche
+      - master  # ou main
 
 jobs:
   test:
@@ -22,6 +22,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      # Fixer les permissions des binaires dans node_modules/.bin
+      - name: Fix permissions for node_modules/.bin
+        run: chmod +x $PWD/node_modules/.bin/*
 
       # Ajouter cette étape pour que les binaires locaux soient trouvés
       - name: Ajouter node_modules/.bin au PATH
