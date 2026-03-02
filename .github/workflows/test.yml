@@ -3,10 +3,10 @@ name: CI/CD Cypress Tests
 on:
   push:
     branches:
-      - master  
+      - master  # Utiliser 'master' si c'est le nom de ta branche
   pull_request:
     branches:
-      - master
+      - master  # Même chose ici, 'master' comme branche
 
 jobs:
   test:
@@ -18,21 +18,24 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20  
+          node-version: 20  # recommandé pour éviter les warnings
 
       - name: Install dependencies
         run: npm install
 
-      - name: Installer serve et wait-on globalement
-        run: |
-          npm install -g serve wait-on
+      # Ajouter cette étape pour que les binaires locaux soient trouvés
+      - name: Ajouter node_modules/.bin au PATH
+        run: echo "$PWD/node_modules/.bin" >> $GITHUB_PATH
 
+      # Lancer le serveur
       - name: Start local server
         run: serve -s . -l 8080 &
 
+      # Attendre que le serveur soit prêt
       - name: Wait for server
         run: wait-on http://localhost:8080
 
+      # Lancer les tests Cypress
       - name: Run Cypress Tests
         run: npm run test
         env:
