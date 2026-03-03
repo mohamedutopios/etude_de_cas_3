@@ -38,14 +38,18 @@ class DashboardPage {
 verifyAccountBalances(expectedCurrent, expectedSavings) {
     this.currentAccountBalance()
         .invoke('text')
-        .invoke('trim')
-        .invoke('replace', /\u00A0/g, ' ')
-        .should('eq', expectedCurrent);
+        .then((text) => {
+            const cleaned = text.trim().replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
+            const expected = expectedCurrent.trim().replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
+            expect(cleaned).to.equal(expected);
+        });
     this.savingsAccountBalance()
         .invoke('text')
-        .invoke('trim')
-        .invoke('replace', /\u00A0/g, ' ')
-        .should('eq', expectedSavings);
+        .then((text) => {
+            const cleaned = text.trim().replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
+            const expected = expectedSavings.trim().replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
+            expect(cleaned).to.equal(expected);
+        });
 }
 
     // -------------------------
