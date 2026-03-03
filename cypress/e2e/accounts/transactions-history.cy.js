@@ -12,7 +12,7 @@ describe('Historique des transactions récentes - Compte Courant', () => {
   it('Doit afficher les 3 dernières transactions du compte courant', () => {
 
     // Charger les données depuis la fixture
-    cy.fixture('users').then((users) => {
+    cy.fixture('transfer').then((users) => {
       const user = users.balanceUser;
 
       // Se connecter
