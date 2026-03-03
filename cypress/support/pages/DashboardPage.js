@@ -35,14 +35,16 @@ class DashboardPage {
     }
 
     // Méthode pour vérifier les montants exacts
-    verifyAccountBalances(expectedCurrent, expectedSavings) {
+verifyAccountBalances(expectedCurrent, expectedSavings) {
     this.currentAccountBalance()
         .invoke('text')
         .invoke('trim')
+        .invoke('replace', /\u00A0/g, ' ')
         .should('eq', expectedCurrent);
     this.savingsAccountBalance()
         .invoke('text')
         .invoke('trim')
+        .invoke('replace', /\u00A0/g, ' ')
         .should('eq', expectedSavings);
 }
 
