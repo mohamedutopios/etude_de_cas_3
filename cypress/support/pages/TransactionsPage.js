@@ -1,36 +1,42 @@
 // cypress/support/pages/TransactionsPage.js
 class TransactionsPage {
-
-    // Titre "Dernières transactions"
     recentTransactionsTitle() {
-      return cy.get('h3.card-title').contains('Dernières transactions');
+        return cy.get('h3.card-title').contains('Dernières transactions');
     }
-  
-    // Récupérer la liste des transactions
+
     transactionsList() {
-      return cy.get('.transaction-description'); // toutes les descriptions
+        return cy.get('.transaction-description');
     }
-  
-    // Transaction individuelle par index
+
     transactionDescription(index) {
-      return cy.get('.transaction-description').eq(index);
+        return cy.get('.transaction-description').eq(index);
     }
-  
+
     transactionAmount(index) {
-      return cy.get('.transaction-amount').eq(index);
+        return cy.get('.transaction-amount').eq(index);
     }
-  
+
     transactionDate(index) {
-      return cy.get('.transaction-date').eq(index);
+        return cy.get('.transaction-date').eq(index);
     }
-  
-    // Vérifier une transaction spécifique
+
     verifyTransaction(index, description, amount, date) {
-      this.transactionDescription(index).should('contain.text', description);
-      this.transactionAmount(index).should('contain.text', amount);
-      this.transactionDate(index).should('contain.text', date);
+        this.transactionDescription(index)
+            .invoke('text')
+            .then((t) => {
+                expect(t.trim().replace(/\u00A0/g, ' ')).to.include(description);
+            });
+        this.transactionAmount(index)
+            .invoke('text')
+            .then((t) => {
+                expect(t.trim().replace(/\u00A0/g, ' ')).to.equal(amount);
+            });
+        this.transactionDate(index)
+            .invoke('text')
+            .then((t) => {
+                expect(t.trim().replace(/\u00A0/g, ' ')).to.include(date);
+            });
     }
-  }
-  
-  export default TransactionsPage;
-  
+}
+
+export default TransactionsPage;
