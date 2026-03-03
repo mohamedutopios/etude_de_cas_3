@@ -38,7 +38,11 @@ describe('Affichage du solde multi-compte', () => {
     // Vérification du solde total multi-compte
     // ---------------------------
     cy.get('span.total-balance strong')
-      .should('be.visible')
-      .and('contain.text', user.totalBalance);
+    .invoke('text')
+    .then((text) => {
+        const cleaned = text.trim().replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
+        const expected = user.totalBalance.trim().replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
+        expect(cleaned).to.equal(expected);
+    });
   });
 });
